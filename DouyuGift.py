@@ -1,12 +1,6 @@
 # 待测试 
 #3.获取荧光棒模块（好像是不到直播间，不会获得荧光棒）
-
-
-
 # ADD 
-#1.判断谁开启了双倍 
-#2.精简mod 到三个
-#
 #4.如何自动更新cookie值
 
 import requests
@@ -19,12 +13,11 @@ from loguru import logger
 global FavorRoomid
 FavorRoomid = '1667826' #3MZ的直播间
 
-
 Headers = {
     "Content-Type": "application/x-www-form-urlencoded",
             "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) ""Chrome/88.0.4324.182 Safari/537.36 Edg/88.0.705.81",
             "referer": "https://www.douyu.com",
-            'cookie': 'dy_did=045960b05c4fd451ebfc15d900091701; acf_did=045960b05c4fd451ebfc15d900091701; _ga=GA1.1.7498322.1711971748; dy_did=045960b05c4fd451ebfc15d900091701; dy_teen_mode=%7B%22uid%22%3A%22156747034%22%2C%22status%22%3A0%2C%22birthday%22%3A%22%22%2C%22password%22%3A%22%22%7D; acf_ssid=1729388853985710099; acf_web_id=7352862669335976974; acf_abval=webnewhome%253DD; loginrefer=pt_kj414lcie41b; acf_uid=156747034; acf_username=156747034; acf_nickname=%E5%B0%8F%E9%BB%91%E4%B8%87%E4%BA%BA%E8%BF%B7; acf_own_room=0; acf_groupid=1; acf_phonestatus=1; acf_ct=0; acf_ltkid=37482509; acf_biz=1; acf_auth=2c5cfsXKGckQNgBO9n32LnwPsxzaUz6WXx5VwlGD4Ae0W4W6WrN24xgFFV3dK22%2FUPlZDG5DDFENm7xeYuqL8m6aLdWvVFEFyejrMiEbaLAT7VrvF3CwL1s; dy_auth=f4027tusahkWLK4OMrrUjsc2ZYZgsr2nx0WBb4pLgzATLvhUxCED5cqQGcI6w1l7c3p5YtT3jKN0LMwDwcYn0k23q8fjqIdc6aMHNzCQpE5AQ8MgPG0YmLI; wan_auth37wan=4be441b387bd11576%2Fgw%2BKqDsjNyCkyomBIb1SamSmduO7yEe8r2T2aI7ovoaGgHtFwEGP%2F4jtIAm8nAl3PnuecINx3CG%2FfH3QdgnIl9%2BZTWumbIrLs; acf_stk=e85bb63ef0662cc4; Hm_lvt_e99aee90ec1b2106afe7ec3b199020a7=1713193263,1713445046,1713499747,1713525330; PHPSESSID=k0r70pc5ghmb2u8mvc0tpqml35; acf_ccn=61d73cba586b32798555c19a86af9ef9; acf_avatar=https%3A%2F%2Fapic.douyucdn.cn%2Fupload%2Favanew%2Fface%2F201708%2F12%2F22%2F68ab181a733b2b7c46ed0461c2fd5416_; _ga_5JKQ7DTEXC=GS1.1.1713525330.37.1.1713527236.54.0.1532942086; Hm_lpvt_e99aee90ec1b2106afe7ec3b199020a7=1713527240',
+            'cookie': 'dy_did=045960b05c4fd451ebfc15d900091701; acf_did=045960b05c4fd451ebfc15d900091701; _ga=GA1.1.7498322.1711971748; dy_did=045960b05c4fd451ebfc15d900091701; dy_teen_mode=%7B%22uid%22%3A%22156747034%22%2C%22status%22%3A0%2C%22birthday%22%3A%22%22%2C%22password%22%3A%22%22%7D; acf_ssid=1729388853985710099; acf_web_id=7352862669335976974; acf_abval=webnewhome%253DD; loginrefer=pt_kj414lcie41b; Hm_lvt_e99aee90ec1b2106afe7ec3b199020a7=1713525330,1713538559,1713705640,1713711097; PHPSESSID=pel1to47qk73cftn2ld60iufb4; acf_auth=762cxp5fjABevRp%2FaUDxLZnhBfoT1kuMT26dRHQl28Cd4I4z20BqTKzXODszHcbVNdYZivdes8MbwpYOLs%2F9AbeyHwSnU9wtQaKYq%2BvZ8v4Z%2BCGK7jrjzZs; dy_auth=25847DvUAC1n5ClCZ8HAQh7uj6kYLURnJaW3fl9SaWH%2FxPE7ZNlj%2BI4ORWUtMigzQjtFdxzXgQDQPcYej8COtHbezQyAowgX2nVpX34UNEEfss9vIVn7SQw; wan_auth37wan=94472183c764ngaq4GWEopB%2FtaLgMg0xoz6qt6UFs4JBaFQqaciI18Ykm9zM1tq3BZSm2%2BUzmH8xxOEAqq1UZttXIzUZTeuEMakWaRTjuv9d5dtPHn4; acf_uid=156747034; acf_username=156747034; acf_nickname=%E5%B0%8F%E9%BB%91%E4%B8%87%E4%BA%BA%E8%BF%B7; acf_own_room=0; acf_groupid=1; acf_phonestatus=1; acf_avatar=https%3A%2F%2Fapic.douyucdn.cn%2Fupload%2Favanew%2Fface%2F201708%2F12%2F22%2F68ab181a733b2b7c46ed0461c2fd5416_; acf_ct=0; acf_ltkid=37482519; acf_biz=1; acf_stk=0abc31f876abb526; _ga_5JKQ7DTEXC=GS1.1.1713711099.42.1.1713711551.54.0.720510930; Hm_lpvt_e99aee90ec1b2106afe7ec3b199020a7=1713711552',
 }
 
 def Pushdeer_message(send_message):
@@ -105,7 +98,6 @@ def Get_FansBadgeDict():
     #logger.info("成功获取粉丝牌信息：%s"%(badges_dict))
     #print(badges_dict[0]['room_id'])
 
-
 def Send_glow(propCount,roomid):
     #赠送荧光棒礼物 如果成功返回True，否则返回False
     data = {
@@ -123,7 +115,6 @@ def Send_glow(propCount,roomid):
         logger.error("cookie失效，请重新登录")
         return False
     
-
 def Get_GlowNumber():
     #return荧光棒数量
     GlowNumber_url = 'https://www.douyu.com/japi/prop/backpack/web/v2?rid=1667826'
@@ -197,8 +188,10 @@ if __name__ == '__main__':
     badges_dict = {}
     Fans_info = Get_FansBadgeDict()
     print("Before: %s" % (Fans_info))
-    Donate_Mod(4)
-    Fans_info_after = Get_FansBadgeDict()
-    print("After: %s" % (Fans_info_after))
+    glowNumber = Get_GlowNumber()
+    print("当前荧光棒数量为：%s" % (glowNumber))
+    #Donate_Mod(4)
+    #Fans_info_after = Get_FansBadgeDict()
+    #print("After: %s" % (Fans_info_after))
 
 
