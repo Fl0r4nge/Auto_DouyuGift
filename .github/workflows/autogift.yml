@@ -26,5 +26,5 @@ jobs:
           SERVERPUSHKEY: ${{ secrets.PUSHDEERKEY }}
           COOKIES: ${{ secrets.COOKIES }}
         run: |
-          python main.py
+          python DouyuGift.py
 

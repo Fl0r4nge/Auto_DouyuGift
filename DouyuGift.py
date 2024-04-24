@@ -1,36 +1,48 @@
-# 待测试 
-#3.获取荧光棒模块（好像是不到直播间，不会获得荧光棒）
-# ADD 
-#4.如何自动更新cookie值
-
 import requests
 from lxml import etree
 import re
 import json
 from loguru import logger
+from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.wait import WebDriverWait
+from time import sleep
+import os
+
 
 #个性化配置的part：
 global FavorRoomid
 FavorRoomid = '1667826' #3MZ的直播间
 
+cookie = os.environ.get('COOKIES')
+pushdeer_key = os.environ.get('PUSHDEER_KEY')
 Headers = {
     "Content-Type": "application/x-www-form-urlencoded",
             "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) ""Chrome/88.0.4324.182 Safari/537.36 Edg/88.0.705.81",
             "referer": "https://www.douyu.com",
-            'cookie': 'dy_did=045960b05c4fd451ebfc15d900091701; acf_did=045960b05c4fd451ebfc15d900091701; _ga=GA1.1.7498322.1711971748; dy_did=045960b05c4fd451ebfc15d900091701; dy_teen_mode=%7B%22uid%22%3A%22156747034%22%2C%22status%22%3A0%2C%22birthday%22%3A%22%22%2C%22password%22%3A%22%22%7D; acf_ssid=1729388853985710099; acf_web_id=7352862669335976974; acf_abval=webnewhome%253DD; loginrefer=pt_kj414lcie41b; Hm_lvt_e99aee90ec1b2106afe7ec3b199020a7=1713525330,1713538559,1713705640,1713711097; PHPSESSID=pel1to47qk73cftn2ld60iufb4; acf_auth=762cxp5fjABevRp%2FaUDxLZnhBfoT1kuMT26dRHQl28Cd4I4z20BqTKzXODszHcbVNdYZivdes8MbwpYOLs%2F9AbeyHwSnU9wtQaKYq%2BvZ8v4Z%2BCGK7jrjzZs; dy_auth=25847DvUAC1n5ClCZ8HAQh7uj6kYLURnJaW3fl9SaWH%2FxPE7ZNlj%2BI4ORWUtMigzQjtFdxzXgQDQPcYej8COtHbezQyAowgX2nVpX34UNEEfss9vIVn7SQw; wan_auth37wan=94472183c764ngaq4GWEopB%2FtaLgMg0xoz6qt6UFs4JBaFQqaciI18Ykm9zM1tq3BZSm2%2BUzmH8xxOEAqq1UZttXIzUZTeuEMakWaRTjuv9d5dtPHn4; acf_uid=156747034; acf_username=156747034; acf_nickname=%E5%B0%8F%E9%BB%91%E4%B8%87%E4%BA%BA%E8%BF%B7; acf_own_room=0; acf_groupid=1; acf_phonestatus=1; acf_avatar=https%3A%2F%2Fapic.douyucdn.cn%2Fupload%2Favanew%2Fface%2F201708%2F12%2F22%2F68ab181a733b2b7c46ed0461c2fd5416_; acf_ct=0; acf_ltkid=37482519; acf_biz=1; acf_stk=0abc31f876abb526; _ga_5JKQ7DTEXC=GS1.1.1713711099.42.1.1713711551.54.0.720510930; Hm_lpvt_e99aee90ec1b2106afe7ec3b199020a7=1713711552',
+            'cookie': cookie,
 }
 
 def Pushdeer_message(send_message):
     #使用pushdeer推送消息
-    key = 'PDU16893TbNIY80fUGyeo7DOVwyWmXUSqCG6btUjx'
+    key = pushdeer_key
     pushdeer_url = 'https://api2.pushdeer.com/message/push?pushkey='+key+'&text='+send_message
     push = requests.get(pushdeer_url)
 
 def Pushdeer_image(image_url):
     #使用pushdeer推送图片
-    key = 'PDU16893TbNIY80fUGyeo7DOVwyWmXUSqCG6btUjx'
+    key = pushdeer_key
     pushdeer_url = 'https://api2.pushdeer.com/message/push?pushkey='+key+'&text='+image_url+'&type=image'
     push = requests.get(pushdeer_url)
+
+def send_log_to_pushdeer():
+    # 打开 log.txt 文件，并读取内容
+    with open("log.txt", "r") as file:
+        log_content = file.read()
+    # 使用 Pushdeer_message 函数发送内容
+    Pushdeer_message(log_content)
+
 
 def Get_FansBadgeDict():
     '''
@@ -41,7 +53,7 @@ def Get_FansBadgeDict():
     'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
     'accept-language': 'zh,zh-CN;q=0.9',
     'cache-control': 'max-age=0',
-    'cookie': 'dy_did=045960b05c4fd451ebfc15d900091701; acf_did=045960b05c4fd451ebfc15d900091701; _ga=GA1.1.7498322.1711971748; dy_did=045960b05c4fd451ebfc15d900091701; dy_teen_mode=%7B%22uid%22%3A%22156747034%22%2C%22status%22%3A0%2C%22birthday%22%3A%22%22%2C%22password%22%3A%22%22%7D; acf_ssid=1729388853985710099; acf_web_id=7352862669335976974; acf_abval=webnewhome%253DD; loginrefer=pt_kj414lcie41b; acf_uid=156747034; acf_username=156747034; acf_nickname=%E5%B0%8F%E9%BB%91%E4%B8%87%E4%BA%BA%E8%BF%B7; acf_own_room=0; acf_groupid=1; acf_phonestatus=1; acf_ct=0; acf_ltkid=37482509; acf_biz=1; acf_auth=2c5cfsXKGckQNgBO9n32LnwPsxzaUz6WXx5VwlGD4Ae0W4W6WrN24xgFFV3dK22%2FUPlZDG5DDFENm7xeYuqL8m6aLdWvVFEFyejrMiEbaLAT7VrvF3CwL1s; dy_auth=f4027tusahkWLK4OMrrUjsc2ZYZgsr2nx0WBb4pLgzATLvhUxCED5cqQGcI6w1l7c3p5YtT3jKN0LMwDwcYn0k23q8fjqIdc6aMHNzCQpE5AQ8MgPG0YmLI; wan_auth37wan=4be441b387bd11576%2Fgw%2BKqDsjNyCkyomBIb1SamSmduO7yEe8r2T2aI7ovoaGgHtFwEGP%2F4jtIAm8nAl3PnuecINx3CG%2FfH3QdgnIl9%2BZTWumbIrLs; acf_stk=e85bb63ef0662cc4; Hm_lvt_e99aee90ec1b2106afe7ec3b199020a7=1713193263,1713445046,1713499747,1713525330; PHPSESSID=k0r70pc5ghmb2u8mvc0tpqml35; acf_ccn=61d73cba586b32798555c19a86af9ef9; acf_avatar=https%3A%2F%2Fapic.douyucdn.cn%2Fupload%2Favanew%2Fface%2F201708%2F12%2F22%2F68ab181a733b2b7c46ed0461c2fd5416_; _ga_5JKQ7DTEXC=GS1.1.1713525330.37.1.1713527236.54.0.1532942086; Hm_lpvt_e99aee90ec1b2106afe7ec3b199020a7=1713527240',
+    'cookie': cookie,
     'referer': 'https://www.douyu.com/member/platform_task/barrage_skin',
     'sec-ch-ua': '"Google Chrome";v="123", "Not:A-Brand";v="8", "Chromium";v="123"',
     'sec-ch-ua-mobile': '?0',
@@ -155,7 +167,46 @@ def Get_MutiplestRoomid():
     MutiplestRoomid = roomid_list[multiple_list.index(max(multiple_list))]
     print(badges_dict)
     return MutiplestRoomid
-    
+
+
+#设置cookie为webdriver需要的格式
+def set_cookie(cookie):
+    cookies = {}
+    for line in cookie.split(';'):
+        # 其设置为1就会把字符串拆分成2份
+        name, value = line.strip().split('=', 1)
+        cookies[name] = value
+    return cookies
+
+def Go_roomforglow():
+    driver_path = ChromeDriverManager().install()  # 使用webdriver manager自动安装新版本
+    chrome_options = Options()
+    chrome_options.add_argument('--no-sandbox')  # 解决DevToolsActivePort文件不存在报错问题
+    chrome_options.add_argument('--disable-gpu')  # 禁用GPU硬件加速，如果软件渲染器没有就位，则GPU进程将不会启动
+    chrome_options.add_argument('--disable-dev-shm-usage')
+    chrome_options.add_argument('--headless')  # 无界面
+    driver = webdriver.Chrome(options=chrome_options)
+    logger.info("打开直播间")
+    driver.get('https://www.douyu.com/1667826')
+    dy_cookie = set_cookie(cookie)
+    for i in dy_cookie.keys():
+        mycookie = {
+            'domain': '.douyu.com',
+            'name': i,
+            'value': dy_cookie[i],
+            'expires': '',
+            'path': '/',
+            'httpOnly': False,
+            'HostOnly': False,
+            'Secure': False,
+        }
+        driver.add_cookie(mycookie)
+    logger.info("刷新页面以完成登录")
+    driver.refresh()
+    sleep(10)
+    driver.quit()
+    logger.info("关闭直播间")
+
 
 def Donate_Mod(mod):
     #调试时调整，Max_GlowNum的数量
@@ -182,16 +233,22 @@ def Donate_Mod(mod):
         Send_glow(Max_GlowNum,MutiplestRoomid)
 
 
-
 if __name__ == '__main__':
+    #配置赠送模式为： 
+    Mod = 1 
+
     #创建一个badges_dict用于存储粉丝牌信息
     badges_dict = {}
+
+    logger.add("log.txt")
     Fans_info = Get_FansBadgeDict()
-    print("Before: %s" % (Fans_info))
+    logger.info("成功获取粉丝牌信息：%s"%(badges_dict))
+    logger.info("前往直播间获取荧光棒")
+    Go_roomforglow()
     glowNumber = Get_GlowNumber()
-    print("当前荧光棒数量为：%s" % (glowNumber))
-    #Donate_Mod(4)
-    #Fans_info_after = Get_FansBadgeDict()
-    #print("After: %s" % (Fans_info_after))
+    logger.info("当前荧光棒数量为：%s" % (glowNumber))
+    Donate_Mod(Mod)
+    send_log_to_pushdeer()
+
 
 
