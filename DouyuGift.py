@@ -16,7 +16,7 @@ global FavorRoomid
 FavorRoomid = '1667826' #3MZ的直播间
 
 cookie = os.environ.get('COOKIES')
-pushdeer_key = os.environ.get('PUSHDEER_KEY')
+pushdeer_key = os.environ.get('PUSHDEERKEY')
 Headers = {
     "Content-Type": "application/x-www-form-urlencoded",
             "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) ""Chrome/88.0.4324.182 Safari/537.36 Edg/88.0.705.81",
