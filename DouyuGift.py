@@ -210,8 +210,8 @@ def Go_roomforglow():
 
 def Donate_Mod(mod):
     #调试时调整，Max_GlowNum的数量
-    #Max_GlowNum = Get_GlowNumber()
-    Max_GlowNum = 6
+    Max_GlowNum = Get_GlowNumber()
+    #Max_GlowNum = 6
 
     if mod == 1:#偏爱虎子（除了偏爱的主播，其余的都只送一个荧光棒保等级）
         logger.info("当前为 1. 偏爱模式，正在为你最喜欢的主播:%s赠送%s个荧光棒,其余的都只送1个荧光棒保等级" % (badges_dict[FavorRoomid]['anchor'],Max_GlowNum-badges_num+1))
