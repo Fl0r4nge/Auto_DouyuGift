@@ -215,21 +215,25 @@ def Donate_Mod(mod):
 
     if mod == 1:#偏爱虎子（除了偏爱的主播，其余的都只送一个荧光棒保等级）
         logger.info("当前为 1. 偏爱模式，正在为你最喜欢的主播:%s赠送%s个荧光棒,其余的都只送1个荧光棒保等级" % (badges_dict[FavorRoomid]['anchor'],Max_GlowNum-badges_num+1))
+        Pushdeer_message("当前为 1. 偏爱模式，正在为你最喜欢的主播:%s赠送%s个荧光棒,其余的都只送1个荧光棒保等级" % (badges_dict[FavorRoomid]['anchor'],Max_GlowNum-badges_num+1))
         for roomid in roomid_list:
             Send_glow(1,roomid)
         Send_glow(Max_GlowNum-badges_num,FavorRoomid)# BUG 这好像没执行 
     if mod == 2:#雨露均沾
         logger.info("当前为 2. 雨露均沾模式，正在为你喜欢的主播平均赠送%s个荧光棒" % (Max_GlowNum//badges_num))
+        Pushdeer_message("当前为 2. 雨露均沾模式，正在为你喜欢的主播平均赠送%s个荧光棒" % (Max_GlowNum//badges_num))
         for roomid in roomid_list:
             Send_glow(Max_GlowNum//badges_num,roomid)
     if mod == 3:#升级优先
         FasterRoomid = Get_LeastExpRoomid()
         logger.info("当前为 3. 升级优先模式,升级最快的房间是%s,为其赠送%s个荧光棒" % (badges_dict[FasterRoomid]['anchor'],Max_GlowNum))
+        Pushdeer_message("当前为 3. 升级优先模式,升级最快的房间是%s,为其赠送%s个荧光棒" % (badges_dict[FasterRoomid]['anchor'],Max_GlowNum))
         Send_glow(Max_GlowNum,FasterRoomid)
     if mod == 4:#性价比模式
         MutiplestRoomid = Get_MutiplestRoomid()
         Mutiple = badges_dict[MutiplestRoomid]['mutiple']
         logger.info("当前为 4. 性价比模式,开启经验最高倍的房间是%s,倍数为%s,为其赠送%s个荧光棒" % (badges_dict[MutiplestRoomid]['anchor'],Mutiple,Max_GlowNum))
+        Pushdeer_message("当前为 4. 性价比模式,开启经验最高倍的房间是%s,倍数为%s,为其赠送%s个荧光棒" % (badges_dict[MutiplestRoomid]['anchor'],Mutiple,Max_GlowNum))
         Send_glow(Max_GlowNum,MutiplestRoomid)
 
 
@@ -243,12 +247,14 @@ if __name__ == '__main__':
     logger.add("log.txt")
     Fans_info = Get_FansBadgeDict()
     logger.info("成功获取粉丝牌信息：%s"%(badges_dict))
+    Pushdeer_message("成功获取粉丝牌信息：%s"%(badges_dict))
     logger.info("前往直播间获取荧光棒")
+    Pushdeer_message("前往直播间获取荧光棒")
     Go_roomforglow()
     glowNumber = Get_GlowNumber()
     logger.info("当前荧光棒数量为：%s" % (glowNumber))
+    Pushdeer_message("当前荧光棒数量为：%s" % (glowNumber))
     Donate_Mod(Mod)
-    send_log_to_pushdeer()
 
 
 
