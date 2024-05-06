@@ -1,4 +1,8 @@
 # Auto_DouyuGift
+⚠️
+在secrets更新cookie时
+    1.获取cookie通过 在具体的房间截取cookie
+    2.填写cookie时，格式为 ' cookie ' (有引号) 
 TodoList
     @2024.4.23 
     1.测试是否可以正常运行 ✅
