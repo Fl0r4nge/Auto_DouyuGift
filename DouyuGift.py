@@ -6,7 +6,6 @@ from loguru import logger
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.support.wait import WebDriverWait
 from time import sleep
 import os
 
